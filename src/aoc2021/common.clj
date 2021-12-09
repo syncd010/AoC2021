@@ -56,6 +56,16 @@
             top-val (nth sorted halfway)]
         (/ (+ bottom-val top-val) 2)))))
 
+(defn get-first
+  "Filters seq using pred and returns the first element"
+  [pred seq]
+  (first (filter pred seq)))
+
+(defn coll-contains?
+  "Returns whether the collection contains the given value"
+  [coll value]
+  (some #(= % value) coll))
+
 (defn call
   "Allows to call a function by name"
   [fn & args]

@@ -26,5 +26,6 @@
         contents (split-lines (trim (slurp (:file parsed-args))))
         res (solve ns-name contents)]
     (println (str "Running day " (:day parsed-args) " with file " (:file parsed-args) "\n"
-                  "Part one solution: " (get res 0) "\nPart two solution: " (get res 1)))))
+                  "Part one solution: " (get res 0) "\nPart two solution: " (get res 1)))
+    res))
 

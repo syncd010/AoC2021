@@ -41,6 +41,15 @@ For part one, there's a closed form solution, and a google search for "minimize 
 For part two i suspected that the answer would be something along the mean, but i didn't find a proof for that, so i just implemented a simple search. Recognizing that the function is convex, and the answer should lie close to the mean, the solution searches in both directions for the minimum value and returns it. In fact the solution is the mean +-0.5 but i find that the search is good enough.
 
 ## [Day 8](https://adventofcode.com/2021/day/8)
+This was a fun problem, though it took some time as as been the norm this year. The description of the problem is long and somewhat confusing, but the core of it amounts to a decoding problem. Part of the solution is given in the first part - the digits 1, 4, 7 and 8 can be found by the length of their encoding, respectively 2, 4, 3 and 7 -, and from there we can derive the encoding of the other digits:
+- 3 has length 5, and its segments completely mask 7;
+- 5 has length 5, and its segments completely mask the difference between the segments of 4 and 1;
+- 2 has length 5, and is whatever is left after applying the previous rules;
+- 6 has length 6, and its segments don't completely mask 1;
+- 9 has length 6, and its segments completely mask 4;
+- 0 has length 6, and its segments don't completely mask the difference between the segments of 4 and 1;
+With that decoding map built, it's just a matter of applying it to the input and deriving the asked result.
+
 
 ## [Day 9](https://adventofcode.com/2021/day/9)
 
