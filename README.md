@@ -55,6 +55,8 @@ Yet another day where my go to solution would be completely imperative, at least
 For part 2 i did a convoluted depth-first-search using `reduce` and recursion, which returns the visited nodes. The implementation isn't canonical nor particularly readable, but it was what came out the first try, so i kept it.
 
 ## [Day 10](https://adventofcode.com/2021/day/10)
+This was a simple one. The main function is `parse-line` which gathers the input tokens on a stack and when a closer token is found checks if it is at the top of the stack, stopping if it is not. Returns the token that broke the parsing (or nil if it the parsing completes until the end) and the remaining tokens on the stack (which are the ones that weren't closed). Part 2 uses the remaining stack to construct the corresponding sequence of `closers` and calculating the scores from there.
+
 
 ## [Day 11](https://adventofcode.com/2021/day/11)
 
