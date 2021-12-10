@@ -50,8 +50,9 @@ This was a fun problem, though it took some time as as been the norm this year. 
 - 0 has length 6, and its segments don't completely mask the difference between the segments of 4 and 1;
 With that decoding map built, it's just a matter of applying it to the input and deriving the asked result.
 
-
 ## [Day 9](https://adventofcode.com/2021/day/9)
+Yet another day where my go to solution would be completely imperative, at least for part one. Nevertheless, it doesn't look bad in Clojure, and is quite readable.
+For part 2 i did a convoluted depth-first-search using `reduce` and recursion, which returns the visited nodes. The implementation isn't canonical nor particularly readable, but it was what came out the first try, so i kept it.
 
 ## [Day 10](https://adventofcode.com/2021/day/10)
 

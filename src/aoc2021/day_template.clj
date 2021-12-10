@@ -5,10 +5,8 @@
 
 (defn solve-part-one [raw-input]
   (let [input (convert raw-input)]
-  1)
-)
+  1))
 
 (defn solve-part-two [raw-input]
   (let [input (convert raw-input)]
-  2)
-)
+  2))
