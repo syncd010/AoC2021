@@ -57,8 +57,8 @@ For part 2 i did a convoluted depth-first-search using `reduce` and recursion, w
 ## [Day 10](https://adventofcode.com/2021/day/10)
 This was a simple one. The main function is `parse-line` which gathers the input tokens on a stack and when a closer token is found checks if it is at the top of the stack, stopping if it is not. Returns the token that broke the parsing (or nil if it the parsing completes until the end) and the remaining tokens on the stack (which are the ones that weren't closed). Part 2 uses the remaining stack to construct the corresponding sequence of `closers` and calculating the scores from there.
 
-
 ## [Day 11](https://adventofcode.com/2021/day/11)
+This would be so much easier with a matrix and some nested fors... Anyway, i'm in a hurry today, so the solution isn't simple, readable nor efficient, but it seems to work, so i'll leave it as is. Just a note: i chose to represent the board using a 1D vector instead of 2D matrix to simplify some manipulations.
 
 ## [Day 12](https://adventofcode.com/2021/day/12)
 

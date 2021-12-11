@@ -15,3 +15,6 @@ pom.xml.asc
 #IDEs
 .idea
 .vscode
+.calva
+.clj-kondo
+.lsp
