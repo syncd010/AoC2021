@@ -1,9 +1,18 @@
-(ns aoc2021.common)
+(ns aoc2021.common
+  (:require [clojure.string :as str]))
 
 (defn zip 
   "Returns a lazy sequence of lists with interleaved elements from the input collections"
   [& colls]
   (partition (count colls) (apply interleave colls)))
+
+(defn is-lower-case? 
+  "Whether the input string is all in lower case"
+  [s]
+  (= (str/lower-case s) s))
+
+(defn has-duplicates? [xs]
+  (not= (count (distinct xs)) (count xs)))
 
 (defn transpose
   "Transpose a matrix"

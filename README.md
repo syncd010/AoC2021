@@ -27,7 +27,7 @@ Clojure is still feeling like a straight jacket, and I'm taking too long to solv
 ## [Day 4](https://adventofcode.com/2021/day/4)
 This was a long one, guess it's the weekend effect where it's assumed we have more time to spend on each problem. 
 Once again, i struggled, and kept falling into an imperative way of thinking, which to be honest, is a more natural style to solve some aspects of this problem. Nevertheless, in the end I'm happy with the solution and feel it is "obvious". 
-The main part is the `play-bingo-rounds`, where consecutive rounds are played, until there are no remaining numbers to call. It returns a list of results from each round: nil if there are no winners on the round or a list of the called-nums and winner boards on that round. From there we can calculate the output of the 2 parts.
+The main part is the `play-bingo-rounds`, where consecutive rounds are played, until there are no remaining numbers to call. It returns a list of results from each round: nil if there are no winners on the round or a list of the called numbers and winner boards on that round. From there we can calculate the output of the 2 parts.
 
 ## [Day 5](https://adventofcode.com/2021/day/5)
 Fairly straightforward, after yesterday's problem. The solution just fills the elements between the start and end positions for each line given on the input and then uses the quite useful `frequencies` function of Clojure to count the number of repeated positions.
@@ -58,9 +58,11 @@ For part 2 i did a convoluted depth-first-search using `reduce` and recursion, w
 This was a simple one. The main function is `parse-line` which gathers the input tokens on a stack and when a closer token is found checks if it is at the top of the stack, stopping if it is not. Returns the token that broke the parsing (or nil if it the parsing completes until the end) and the remaining tokens on the stack (which are the ones that weren't closed). Part 2 uses the remaining stack to construct the corresponding sequence of `closers` and calculating the scores from there.
 
 ## [Day 11](https://adventofcode.com/2021/day/11)
-This would be so much easier with a matrix and some nested fors... Anyway, i'm in a hurry today, so the solution isn't simple, readable nor efficient, but it seems to work, so i'll leave it as is. Just a note: i chose to represent the board using a 1D vector instead of 2D matrix to simplify some manipulations.
+This would be so much easier with a matrix and some nested for's... Anyway, i'm in a hurry today, so the solution isn't simple, readable nor efficient, but it seems to work, so i'll leave it as is. Just a note: i chose to represent the board using a 1D vector instead of 2D matrix to simplify some manipulations.
 
 ## [Day 12](https://adventofcode.com/2021/day/12)
+I was wondering when search would appear, and this was the day. It's not a search problem, but the solution structure is similar to a Depth-First Search, just visiting all nodes instead of stopping when finding a goal. It only counts the number of explored paths, it doesn't store them, as that can lead to problems with stack overflows and/or memory depletion.
+As usual, solving this took too much time, partly because i had to stop aoc for a week, and on returning half of the gained proficiency in Clojure was gone, but the final solution is simple and elegant IMO.
 
 ## [Day 13](https://adventofcode.com/2021/day/13)
 
