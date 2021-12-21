@@ -13,6 +13,7 @@
       "down" [(first pos) (+ (second pos) steps)]
       "up" [(first pos) (- (second pos) steps)])))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-one
   [day-input]
   (let [input (convert day-input)
@@ -27,6 +28,7 @@
       "down"  [(pos 0) (pos 1) (+ (pos 2) steps)]
       "up"  [(pos 0) (pos 1) (- (pos 2) steps)])))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-two
   [day-input]
   (let [input (convert day-input)

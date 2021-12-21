@@ -1,5 +1,5 @@
 (ns aoc2021.day6
-  (:require [clojure.string :refer [split trim]])
+  (:require [clojure.string :refer [split]])
   (:require [aoc2021.common :refer [parse-int sum]]))
 
 (def part-one-days 80)
@@ -17,6 +17,7 @@
           new-gen-sz (count (filter #(= % -1) gens-dec))]
       (recur (dec n) (into (replace {-1 6} gens-dec) (repeat new-gen-sz 8))))))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-one [raw-input]
   (let [input (convert raw-input)]
   (count (evolve-gens part-one-days input))))
@@ -29,6 +30,7 @@
     (let [next-age-freqs (conj (subvec age-freqs 1) (first age-freqs))]
       (recur (dec n) (assoc next-age-freqs 6 (+ (get age-freqs 0) (get age-freqs 7)))))))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-two [raw-input]
   (let [input (convert raw-input)
         age-freqs (vals (into (sorted-map)

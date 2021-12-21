@@ -1,10 +1,11 @@
 (ns aoc2021.day7
-  (:require [clojure.string :refer [split trim]])
+  (:require [clojure.string :refer [split]])
   (:require [aoc2021.common :refer [parse-int median mean sum]]))
 
 (defn convert [raw-input]
   (mapv parse-int (split (first raw-input) #",")))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-one [raw-input]
   (let [input (convert raw-input)
         ;; The mean minimizes the sum of absolute differences (l1-norm in 1D)
@@ -39,6 +40,7 @@
         right-costs (find-min-cost-towards start-pos 1 points)]
     (min left-costs right-costs)))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-two [raw-input]
   (let [input (convert raw-input)]
     (find-min-cost (sort input))))

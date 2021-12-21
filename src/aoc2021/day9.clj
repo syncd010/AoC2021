@@ -25,12 +25,13 @@
   [matrix row col]
   (< (m-get matrix row col) (apply min (neighbors matrix row col))))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-one [raw-input]
   (let [input (convert raw-input)
         width (count (first input))
         heigth (count input)
         low-points (remove nil? (for [row (range heigth) col (range width)]
-                                  (if (is-low-point? input row col) [row col])))]
+                                  (when (is-low-point? input row col) [row col])))]
     (sum (map (fn [[r c]] (inc (m-get input r c))) low-points))))
 
 (defn flood-basin
@@ -44,11 +45,12 @@
       flooded
       (reduce #(flood-basin matrix %2 %1) (conj flooded from) (neighbors-idx row col)))))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-two [raw-input]
   (let [input (convert raw-input)
         width (count (first input))
         heigth (count input)
         low-points (remove nil? (for [row (range heigth) col (range width)]
-                                  (if (is-low-point? input row col) [row col])))
+                                  (when (is-low-point? input row col) [row col])))
         basins (map #(flood-basin input % #{}) low-points)]
     (apply * (take 3 (sort > (map count basins))))))

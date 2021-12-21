@@ -1,6 +1,5 @@
 (ns aoc2021.day4
   (:require [clojure.string :refer [split trim]])
-  (:require [clojure.set :refer [difference]])
   (:require [aoc2021.common :refer [transpose]]))
 
 (defn process-board-line [boards input-line]
@@ -45,18 +44,20 @@
         winner-boards (first round-result)
         new-called-nums (conj called-nums (first remaining-nums))
         new-results (conj results
-                          (when (not (empty? winner-boards))
+                          (when (seq winner-boards)
                             (list new-called-nums winner-boards)))]
     (if (= (count remaining-nums) 1) ;; Reched the end, return
       new-results
       (recur (second round-result) (rest remaining-nums) new-called-nums new-results))))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-one [raw-input]
   (let [input (convert raw-input)
         bingo-rounds (play-bingo-rounds (second input) (first input) [] [])
         winner-round (first (remove nil? bingo-rounds))]
     (* (reduce + (flatten (second winner-round))) (last (first winner-round)))))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-two [raw-input]
   (let [input (convert raw-input)
         bingo-rounds (play-bingo-rounds (second input) (first input) [] [])

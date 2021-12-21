@@ -1,7 +1,7 @@
 (ns aoc2021.day8
   (:require [clojure.string :as str])
   (:require [clojure.set :as set])
-  (:require [aoc2021.common :refer [parse-int sum get-first]]))
+  (:require [aoc2021.common :refer [parse-int sum]]))
 
 (defn convert [raw-input]
   (map (fn [line]
@@ -10,6 +10,7 @@
               (str/split line #"\|")))
        raw-input))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-one [raw-input]
   (let [input (convert raw-input)
         counts (map #(count %) (flatten (map second input)))
@@ -49,6 +50,7 @@
         output-digits (map #(digits-map %) (second line))]
     (parse-int (str/join output-digits))))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-two [raw-input]
   (let [input (convert raw-input)]
     (sum (map decode-output-digits input))))

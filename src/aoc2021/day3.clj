@@ -23,6 +23,7 @@
   [lst]
   (map #(if (== % 0) 1 0) lst))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-one [raw-input]
   (let [input (convert raw-input)
         gamma (calc-gamma input)
@@ -40,6 +41,7 @@
       (== (+ pos 1) (count (first lst))) new-lst
       :else (recur (+ pos 1) new-lst calc-fn))))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-two [raw-input]
   (let [input (convert raw-input)
         o2-rating (first (filter-on-pos 0 input calc-gamma))

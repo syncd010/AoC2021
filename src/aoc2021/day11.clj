@@ -38,6 +38,7 @@
 (defn step [board]
    (flash (assoc board :values (map inc (board :values))) 0))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-one [raw-input]
   (let [input (convert raw-input)]
     (loop [n 100 flashed-acc 0 board input]
@@ -46,6 +47,7 @@
         (let [res (step board)]
           (recur (dec n) (+ flashed-acc (first res)) (second res)))))))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-two [raw-input]
   (let [input (convert raw-input)]
     (loop [n 0 flashed-acc 0 board input]

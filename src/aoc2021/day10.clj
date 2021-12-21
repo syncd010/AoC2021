@@ -20,6 +20,7 @@
 
 (def points-part-one (zipmap closers [3 57 1197 25137]))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-one [raw-input]
   (let [input (map seq (convert raw-input))]
     (sum (map points-part-one (remove nil? (map first (map parse-line input)))))))
@@ -32,6 +33,7 @@
 (defn score [seq]
   (reduce (fn [acc c] (+ (* acc 5) (points-part-two c))) 0 seq))
   
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn solve-part-two [raw-input]
   (let [input (map seq (convert raw-input))]
     (median (sort (map (comp score complete second) (filter #(nil? (first %)) (map parse-line input)))))))
