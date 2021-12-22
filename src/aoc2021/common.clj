@@ -79,3 +79,12 @@
   "Allows to call a function by name"
   [fn & args]
   (apply (resolve (symbol fn)) args))
+
+(defn vec2D->1D [width [x y]]
+  (+ x (* y width)))
+
+(defn vec1D->2D [width x]
+  [(rem x width) (quot x width)])
+
+(defn str-partition [n s]
+  (re-seq (re-pattern (str ".{1," n "}")) s))

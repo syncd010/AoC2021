@@ -65,6 +65,7 @@ I was wondering when search would appear, and this was the day. It's not a searc
 As usual, solving this took too much time, partly because i had to stop aoc for a week, and on returning half of the gained proficiency in Clojure was gone, but the final solution is simple and elegant IMO.
 
 ## [Day 13](https://adventofcode.com/2021/day/13)
+The solution for this one is straightforward to see, though it took some time to implement in Clojure, particularly the second part, the representation of the board. To make it manageable i had to represent it as a 1D array, manipulate it and then partition it to 2D. Once again this would be a straightforward, mindless job in a imperative language, but took some thinking in a functional one.
 
 ## [Day 14](https://adventofcode.com/2021/day/14)
 
