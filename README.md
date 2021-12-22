@@ -68,6 +68,9 @@ As usual, solving this took too much time, partly because i had to stop aoc for 
 The solution for this one is straightforward to see, though it took some time to implement in Clojure, particularly the second part, the representation of the board. To make it manageable i had to represent it as a 1D array, manipulate it and then partition it to 2D. Once again this would be a straightforward, mindless job in a imperative language, but took some thinking in a functional one.
 
 ## [Day 14](https://adventofcode.com/2021/day/14)
+First part is a straightforward implementation, expanding the initial template according to the rules, and manipulating the result to obtain what is being asked.
+For part 2 a full expansion wouldn't work, as the result would be on the order of 2^40*(initial size). Looking at the structure of the problem, each pair of letters generates two new pairs according to a rule, so we just need to keep track of the number of pairs that are generated on each step and present on the output. Given that - the count of each pair that is on the result - to get the individual letters we should only consider the second letter, given that they are all overlapped, and add the first letter of the initial template.
+I feel that this is a somewhat confusing solution, and the code is less than readable (could be better if i had partitioned it in smaller functions), but enough for today. Anyway, it's one day where i feel that the solution isn't very elegant.
 
 ## [Day 15](https://adventofcode.com/2021/day/15)
 
