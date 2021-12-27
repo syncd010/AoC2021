@@ -1,12 +1,12 @@
 (ns aoc2021.common
   (:require [clojure.string :as str]))
 
-(defn zip 
+(defn zip
   "Returns a lazy sequence of lists with interleaved elements from the input collections"
   [& colls]
   (partition (count colls) (apply interleave colls)))
 
-(defn is-lower-case? 
+(defn is-lower-case?
   "Whether the input string is all in lower case"
   [s]
   (= (str/lower-case s) s))
@@ -80,11 +80,17 @@
   [fn & args]
   (apply (resolve (symbol fn)) args))
 
-(defn vec2D->1D [width [x y]]
+(defn vec2D->1D
+  "Transforms a 2D position into 1D"
+  [width [x y]]
   (+ x (* y width)))
 
-(defn vec1D->2D [width x]
+(defn vec1D->2D
+  "Transforms 1D position into 2D"
+  [width x]
   [(rem x width) (quot x width)])
 
-(defn str-partition [n s]
+(defn str-partition
+  "Partitions a string into a vector of n characters"
+  [n s]
   (re-seq (re-pattern (str ".{1," n "}")) s))

@@ -6,6 +6,7 @@
 
 (comment
   "Change the file to load it in the REPL"
+  #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
   (def raw-input (str/split-lines (str/trim (slurp "resources/input"))))
   )
 
