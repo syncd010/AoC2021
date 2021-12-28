@@ -26,11 +26,9 @@
 
 (defn parse-int
   "Helper wrapper for Integer/parseInt"
-  [n]
-  (Integer/parseInt n))
-
-(defn parse-bin-int [n]
-  (Integer/parseInt n 2))
+  ([n] (parse-int n 10))
+  ([n base]
+   (Integer/parseInt n base)))
 
 (defn dist
   ([to] (dist [0 0] to))
