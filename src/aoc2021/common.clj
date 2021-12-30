@@ -92,3 +92,12 @@
   "Partitions a string into a vector of n characters"
   [n s]
   (re-seq (re-pattern (str ".{1," n "}")) s))
+
+(defn quad-formula
+  "Quadratic formula"
+  [a b c]
+  (let [disc (- (* b b) (* 4 a c))]
+    (cond
+      (< disc 0) []
+      (= disc 0) [(/ (- b) (* 2 a))]
+      (> disc 0) [(/ (- (- b) (Math/sqrt disc)) (* 2 a)) (/ (+ (- b) (Math/sqrt disc)) (* 2 a))])))

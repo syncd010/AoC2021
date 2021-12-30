@@ -80,6 +80,10 @@ As for the specific problem of the day, part one is simple, and part two is solv
 This was a fun one, though it took some work/time getting all the indexes right. The whole problem is recursive, which plays to Clojure's strengths. Part two was a breeze, quick to implement and a clean solution. There were issues with large numbers in the problem - the value on literals can be quite large so a direct parsing with `Integer/parseInt` isn't feasible, it has to be done in the same chunks it is represented. Given the magnitude of the literals it is best to handle all the values as floating-point from there on to minimize the risk of overflows.
 
 ## [Day 17](https://adventofcode.com/2021/day/17)
+This was a pure classical mechanics problem, which can be solved by calculating the projectile trajectory. The x and y axes are independent, and the movement on the y axis can be described by a direct application of motion equations with constant acceleration (which need to be adapted for discrete time): `y(t) = y0 + v0y*t + 1/2*a*t^2`, while on the x axis we need to take into account that v cannot be bellow 0, or equivalently, it only moves up until time `t-max = v0x / a`.
+To check whether the projectile hits a bounding box defined by `[xm, xM] [ym, yM]`, it's easier to start with the y axis and calculate the interval of time it travels between ym and yM by solving the motion equation `y(t) = ym` (or yM). With that interval the positions of x can be calculated (bearing in mind that x travels at most for `v0x/a` time) using `x(t)` and then check whether any of the resulting positions is within the interval `[xm, xM]`. Some care must be taken because we're dealing with discrete time steps in the checking. 
+To get the final solutions we need to define maximum values for the starting velocities, which are defined as xM and yM positions, given that with that velocities the bounding box wouldn't even be hit on t=1. Stricter conditions could be deduced, but these suffice for the scale of the problem. After getting the initial velocities that hit the box, the solutions are straightforward.
+
 
 ## [Day 18](https://adventofcode.com/2021/day/18)
 
