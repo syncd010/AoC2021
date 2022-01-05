@@ -106,6 +106,8 @@ Anyway, here goes some unstructured thoughts:
 A fun one, but hopefully the last that takes so much work.
 
 ## [Day 20](https://adventofcode.com/2021/day/20)
+This was a lot softer, even though it had the curve ball of having the input from the test and the real one give totally different results. Position 0 of the real input is 1 (and position 511 is 0), so all the "outer" positions on the image alternatively switch between a 0 and a 1, which didn't happen on the test input, where position 0 is 0, so they all stayed fixed at 0. Clever twist.
+Generally this problem didn't play to Clojure's strengths, or at least to my knowledge of Clojure. An imperative style with mutable state would IMO be cleaner and quicker. My implementation isn't very quick (takes about 7s), i even tried to use transient vectors, but that didn't help at all. In the end i just brute-forced it and added a `pmap` to parallelize each row processing, which helped a bit. Once again, making an algorithm parallel in Clojure is a breeze.
 
 ## [Day 21](https://adventofcode.com/2021/day/21)
 
