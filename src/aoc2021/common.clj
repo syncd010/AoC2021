@@ -19,10 +19,14 @@
   [m]
   (apply mapv vector m))
 
-(defn vec-remove
-  "Remove elem in coll"
-  [pos coll]
-  (into (subvec coll 0 pos) (subvec coll (inc pos))))
+(defn dot
+  "Poor man's dot product"
+  [m1 m2]
+  (cond
+    (and (vector? (first m1)) (vector? (first m2))) (transpose (mapv #(dot m1 %) (transpose m2))) ;; Both matrixes
+    (vector? (first m1)) (mapv #(dot % m2) m1) ;; m2 is guaranteed vector
+    (vector? (first m2)) (mapv #(dot % m1) (transpose m2)) ;; m1 is guaranteed vector
+    :else (reduce + (map * m1 m2)))) ;; m1 and m2 are vectors
 
 (defn parse-int
   "Helper wrapper for Integer/parseInt"
@@ -30,13 +34,11 @@
   ([n base]
    (Integer/parseInt n base)))
 
-(defn dist
-  ([to] (dist [0 0] to))
-  ([from to] (Math/sqrt (+ (Math/pow (- (first to) (first from)) 2) (Math/pow (- (second to) (second from)) 2)))))
-
 (defn m-dist
-  ([to] (m-dist [0 0] to))
-  ([from to] (+ (Math/abs (- (first to) (first from))) (Math/abs (- (second to) (second from))))))
+  "Manhattan distance"
+  ([to] (m-dist (repeat (count to) 0) to))
+  ([from to] 
+   (reduce + (map #(Math/abs %) (map - to from)))))
 
 (defn sum
   "Sums a sequence"
@@ -62,11 +64,6 @@
       (let [bottom-val (nth sorted (dec halfway))
             top-val (nth sorted halfway)]
         (/ (+ bottom-val top-val) 2)))))
-
-(defn get-first
-  "Filters seq using pred and returns the first element"
-  [pred seq]
-  (first (filter pred seq)))
 
 (defn coll-contains?
   "Returns whether the collection contains the given value"
@@ -101,3 +98,18 @@
       (< disc 0) []
       (= disc 0) [(/ (- b) (* 2 a))]
       (> disc 0) [(/ (- (- b) (Math/sqrt disc)) (* 2 a)) (/ (+ (- b) (Math/sqrt disc)) (* 2 a))])))
+
+(defn rotation-matrix 
+  "Returns the rotation matrix in 3D for the angles around z, y and x axes respectively
+   (yaw, pitch and roll angles)"
+  [alpha beta gamma]
+  (let [cos-a (Math/cos alpha)
+        sin-a (Math/sin alpha)
+        cos-b (Math/cos beta)
+        sin-b (Math/sin beta)
+        cos-g (Math/cos gamma)
+        sin-g (Math/sin gamma)]
+    [(mapv int [(* cos-a cos-b) (- (* cos-a sin-b sin-g) (* sin-a cos-g)) (+ (* cos-a sin-b cos-g) (* sin-a sin-g))])
+     (mapv int [(* sin-a cos-b) (+ (* sin-a sin-b sin-g) (* cos-a cos-g)) (- (* sin-a sin-b cos-g) (* cos-a sin-g))])
+     (mapv int [(- sin-b) (* cos-b sin-g) (* cos-b cos-g)])]))
+
