@@ -6,6 +6,12 @@
   [& colls]
   (partition (count colls) (apply interleave colls)))
 
+(defn min-index 
+  "Minimum index of the collection"
+  [coll]
+  (first (apply min-key second (map-indexed vector coll))))
+
+
 (defn is-lower-case?
   "Whether the input string is all in lower case"
   [s]

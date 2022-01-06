@@ -110,6 +110,14 @@ This was a lot softer, even though it had the curve ball of having the input fro
 Generally this problem didn't play to Clojure's strengths, or at least to my knowledge of Clojure. An imperative style with mutable state would IMO be cleaner and quicker. My implementation isn't very quick (takes about 7s), i even tried to use transient vectors, but that didn't help at all. In the end i just brute-forced it and added a `pmap` to parallelize each row processing, which helped a bit. Once again, making an algorithm parallel in Clojure is a breeze.
 
 ## [Day 21](https://adventofcode.com/2021/day/21)
+This year is definitely harder than the previous ones... 
+First part is straightforward. I understand that, with some thought, a generic "formula" could be devised for the game, but i implemented a direct description of the game, which wasn't hard.
+The second part scared me, right from the moment i read the result numbers. It's an explosive combinatorics problem, that required some iterations to get right - Clojure's REPL was a huge help here. The main insights to solve it are:
+- On each round of 3 dice rolls, the number of possible universes expands by 27;
+- `round-results` contains the parameters by which a round of 3 rolls change a universe: a map of "positions to advance" to "number of universes" that have that result.
+- The state of universes is represented by a map, whose key is the state of the players and the value is the number of universes for that state. The state/key is a vector with 2 positions, one for each player, and each one is a vector with that player's position and total points, ie `[ [ p1-position p1-points ] [ p2-position p2-points ] ]`. Thank god that nested vectors can be used as keys in Clojure...
+- Evolving a universe is a matter of "applying" the position/counts in `round-results` to each entry of a universe (thereby expanding it by 27), taking care to apply that to the correct player.
+There might be a (much) simpler solution, but this is the best i could find.
 
 ## [Day 22](https://adventofcode.com/2021/day/22)
 
