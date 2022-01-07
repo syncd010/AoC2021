@@ -8,6 +8,7 @@
 
 (comment
   "Change the file to load it in the REPL"
+  #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
   (def raw-input (str/split-lines (str/trim (slurp "resources/input14Test"))))
   )
 
@@ -23,10 +24,8 @@
     template
     (recur rules (expand-once rules template) (dec n))))
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
-  (let [[rules template] (convert raw-input)
-        expansion (expand-n rules template 10)
+(defn solve-part-one [[rules template]]
+  (let [expansion (expand-n rules template 10)
         counts (map second (frequencies expansion))]
     (- (apply max counts) (apply min counts))))
 
@@ -44,9 +43,14 @@
                    {} pairs-count)]
           (recur new-pairs-count (dec n)))))))
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
-  (let [[rules template] (convert raw-input)
-        pairs-count (count-pairs rules template 40)
+(defn solve-part-two [[rules template]]
+  (let [pairs-count (count-pairs rules template 40)
         letters-count (map second (reduce (fn [m [pair c]] (assoc m (second pair) (+ c (get m (second pair) 0)))) {(first template) 1} pairs-count))]
     (- (apply max letters-count) (apply min letters-count))))
+
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
+(defn solve [raw-input]
+  (let [input (convert raw-input)
+        part-one (solve-part-one input)
+        part-two (solve-part-two input)]
+    [part-one part-two]))

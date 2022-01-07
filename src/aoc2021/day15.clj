@@ -1,7 +1,7 @@
 (ns aoc2021.day15
   (:require [clojure.string :as str])
   (:require [aoc2021.common :refer [parse-int]])
-  (:require [aoc2021.search :refer :all]))
+  (:require [aoc2021.search :as search]))
 
 (defn convert [raw-input]
   (mapv (fn [line] (mapv #(parse-int %) (str/split line #""))) raw-input))
@@ -27,7 +27,7 @@
 (defn neighbors-idx
   "Indexes of the neighbors. [height width] is needed to check for borders"
   [[row col] [height width]]
-  (filter (fn [[op [r c]]] (and (>= c 0) (< c width) (>= r 0) (< r height)))
+  (filter (fn [[_ [r c]]] (and (>= c 0) (< c width) (>= r 0) (< r height)))
           [["D" [(inc row) col]] ["R" [row (inc col)]] ["U" [(dec row) col]] ["L" [row (dec col)]]]))
 
 (defn successors-fn
@@ -36,23 +36,17 @@
   (fn [node]
     (map (fn [succ-idx]
            (let [op (first succ-idx) idx (second succ-idx)]
-             (make-search-node idx node op (str idx) (m-get input idx))))
+             (search/make-search-node idx node op (str idx) (m-get input idx))))
          (neighbors-idx (:value node) [height width]))))
 
-(defn solve [input reps]
-  (let [start (make-search-node [0 0])
+(defn search-reps [input reps]
+  (let [start (search/make-search-node [0 0])
         width (* reps (count (first input)))
         height (* reps (count input))
-        finish (uniform-cost-search start (successors-fn input [height width]) (is-goal-fn height width))]
+        finish (search/uniform-cost-search start (successors-fn input [height width]) (is-goal-fn height width))]
     (str (-> finish :found :path-cost) " (explored " (:explored-count finish) " nodes)")))
 
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
+(defn solve [raw-input]
   (let [input (convert raw-input)]
-    (solve input 1)))
-
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
-  (let [input (convert raw-input)]
-    ;; 2))
-    (solve input 5)))
+    [(search-reps input 1) (search-reps input 5)]))

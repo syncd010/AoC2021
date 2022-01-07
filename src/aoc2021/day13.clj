@@ -23,11 +23,6 @@
 (defn fold-paper [markings fold]
     (remove nil? (map #(translate % fold) markings)))
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
-  (let [[markings folds] (convert raw-input)]
-    (count (distinct (fold-paper markings (first folds))))))
-
 (defn repr [markings]
   (let [width (+ 1 (apply max (map first markings)))
         board (reduce
@@ -36,7 +31,9 @@
     (str/join "\n" (str-partition width board))))
 
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
+(defn solve [raw-input]
   (let [[markings folds] (convert raw-input)
-        code-marks (reduce #(distinct (fold-paper %1 %2)) markings folds)]
-  (str "\n" (repr code-marks))))
+        part-one (count (distinct (fold-paper markings (first folds))))
+        code-marks (reduce #(distinct (fold-paper %1 %2)) markings folds)
+        part-two (str "\n" (repr code-marks))]
+    [part-one part-two]))

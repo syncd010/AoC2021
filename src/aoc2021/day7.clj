@@ -5,13 +5,6 @@
 (defn convert [raw-input]
   (mapv parse-int (split (first raw-input) #",")))
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
-  (let [input (convert raw-input)
-        ;; The mean minimizes the sum of absolute differences (l1-norm in 1D)
-        min-pos (median input)]
-    (sum (map #(Math/abs (- % min-pos)) input))))
-
 (defn triangular-number
   "Returns the nth triangular number: n * (n + 1) / 2"
   [n]
@@ -41,6 +34,9 @@
     (min left-costs right-costs)))
 
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
-  (let [input (convert raw-input)]
-    (find-min-cost (sort input))))
+(defn solve [raw-input]
+  (let [input (convert raw-input)
+        ;; The mean minimizes the sum of absolute differences (l1-norm in 1D)
+        part-one (sum (map #(Math/abs (- % (median input))) input))
+        part-two (find-min-cost (sort input))]
+    [part-one part-two]))

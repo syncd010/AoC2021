@@ -19,7 +19,7 @@ This will run the 2 parts of the specified `day` using `FILE` as input. If no fi
 A simple warm up, though more complex than other years i believe.
 
 ## [Day 2](https://adventofcode.com/2021/day/2)
-Still warming up, though I'm already having trouble with Clojure, and progressing way too slow.
+Still warming up, but I'm already having trouble with Clojure and progressing way too slow.
 
 ## [Day 3](https://adventofcode.com/2021/day/3)
 Clojure is still feeling like a straight jacket, and I'm taking too long to solve these problems.
@@ -33,7 +33,7 @@ The main part is the `play-bingo-rounds`, where consecutive rounds are played, u
 Fairly straightforward, after yesterday's problem. The solution just fills the elements between the start and end positions for each line given on the input and then uses the quite useful `frequencies` function of Clojure to count the number of repeated positions.
 
 ## [Day 6](https://adventofcode.com/2021/day/6)
-An exponential growth problem, for which i tried to find a closed form solution (like n0*2^gens). But given that the first generation has a time to reproduce different than the others, i couldn't find a closed form solution (and i don't think one exists). So, for part 1 i implemented a straightforward simulation of the problem, even though i suspected that part 2 would make that approach infeasible, which, surely enough was the case.
+An exponential growth problem, for which i tried to find a closed form solution (like n0*2^gens). But given that the first generation has a time to reproduce different than the others, i couldn't find one (and i don't think one exists). So, for part 1 i implemented a straightforward simulation of the problem, even though i suspected that part 2 would make that approach infeasible, which, surely enough was the case.
 The insight for part to is to recognize that all elements with the same age will produce the same result, so we can group them and evolve based on the age group. This can be done by having a vector where each position represents the number of elements with that age, and on each step rotate the vector (simulating decreasing the age) and adding the previous 0 age group to the 6 age group (the new 8 age group is the same size as the precious 0 age group, which gets counted automatically on the vector rotation).
 
 ## [Day 7](https://adventofcode.com/2021/day/7)
@@ -65,7 +65,7 @@ I was wondering when search would appear, and this was the day. It's not a searc
 As usual, solving this took too much time, partly because i had to stop aoc for a week, and on returning half of the gained proficiency in Clojure was gone, but the final solution is simple and elegant IMO.
 
 ## [Day 13](https://adventofcode.com/2021/day/13)
-The solution for this one is straightforward to see, though it took some time to implement in Clojure, particularly the second part, the representation of the board. To make it manageable i had to represent it as a 1D array, manipulate it and then partition it to 2D. Once again this would be a straightforward, mindless job in a imperative language, but took some thinking in a functional one.
+The solution for this one is straightforward to see, though it took some time to implement, particularly the second part, the representation of the board. To make it manageable i had to represent it as a 1D array, manipulate it and then partition it to 2D. Once again this would be a straightforward, mindless job in a imperative language, but took some thinking in a functional one.
 
 ## [Day 14](https://adventofcode.com/2021/day/14)
 First part is a straightforward implementation, expanding the initial template according to the rules, and manipulating the result to obtain what is being asked.
@@ -74,7 +74,8 @@ I feel that this is a somewhat confusing solution, and the code is less than rea
 
 ## [Day 15](https://adventofcode.com/2021/day/15)
 The first search problem, this time a uniform-cost/Dijkstra search to find the shortest path between the beginning and the end. I decided to over-engineer the solution and make it general enough to support breadth-first, depth-first, uniform-cost, greedy and A* search methods. So i dusted off my copy of Norvig's AI book, took a look at the search algorithms chapter and just went with it. This took some time and lead to long debugging sessions but it is done, and will probably be used in later days...The code is in search.clj and is fairly well documented, so additional info should be looked there.
-As for the specific problem of the day, part one is simple, and part two is solvable by brute-forcing it, which takes approximately 20s on my computer. Curiously, adding more fields to the *search-nodes* (like for instance, pre-computing the total cost as `path-cost + estimated-cost`) makes this run a lot slower (doubling the time), which leads me to suspect that the size of the node is relevant. I also learned a lot (and got frustrated a lot) about Clojure's lists and vectors, `conjs` and `concats`, `first`, `rest` and `subvec`, how it pays to be aware about the type of collection that is being manipulated, how a FIFO queue isn't native, and how simple and seemingly innocuous changes to those constructs can lead the runtimes exponentially higher or hairy exceptions (like for instance [this](https://stuartsierra.com/2015/04/26/clojure-donts-concat)).
+As for the specific problem of the day, part one is simple, and part two is solvable by brute-forcing it, which takes approximately 16s on my computer. Curiously, adding more fields to the *search-nodes* (like for instance, pre-computing the total cost as `path-cost + estimated-cost`) makes this run a lot slower (doubling the time), which implies that Clojure's implementation of vectors is susceptible to  the size of its elements. 
+I also learned a lot (and got frustrated a lot) about Clojure's lists and vectors, `conjs` and `concats`, `first`, `rest` and `subvec`, how it pays to be aware about the type of collection that is being manipulated, how a FIFO queue isn't native, and how simple and seemingly innocuous changes to those constructs can lead the runtimes exponentially higher or hairy exceptions (like for instance [this](https://stuartsierra.com/2015/04/26/clojure-donts-concat)).
 
 ## [Day 16](https://adventofcode.com/2021/day/16)
 This was a fun one, though it took some work/time getting all the indexes right. The whole problem is recursive, which plays to Clojure's strengths. Part two was a breeze, quick to implement and a clean solution. There were issues with large numbers in the problem - the value on literals can be quite large so a direct parsing with `Integer/parseInt` isn't feasible, it has to be done in the same chunks it is represented. Given the magnitude of the literals it is best to handle all the values as floating-point from there on to minimize the risk of overflows.

@@ -1,6 +1,7 @@
 (ns aoc2021.core
   (:require [clojure.tools.cli :refer [parse-opts]])
   (:require [clojure.string :refer [trim split-lines]])
+  (:require [aoc2021.common :refer [timed]])
   (:gen-class))
 
 (def cli-options
@@ -14,18 +15,17 @@
 
 (defn solve [ns-name input]
   (require (symbol ns-name))
-  (let [ns-day (find-ns (symbol ns-name))
-        part-one ((ns-resolve ns-day 'solve-part-one) input)
-        part-two ((ns-resolve ns-day 'solve-part-two) input)]
-    [part-one part-two]))
+  (let [ns-day (find-ns (symbol ns-name))]
+    ((ns-resolve ns-day 'solve) input)))
 
 (defn -main
   [& args]
   (let [parsed-args (:options (parse-opts args cli-options))
         ns-name (str "aoc2021.day" (:day parsed-args))
         contents (split-lines (trim (slurp (:file parsed-args))))
-        res (solve ns-name contents)]
-    (println (str "Running day " (:day parsed-args) " with file " (:file parsed-args) "\n"
-                  "Part one solution: " (get res 0) "\nPart two solution: " (get res 1)))
-    res))
+        [elapsed [part-one part-two]] (timed (solve ns-name contents))]
+    (println (str "Running day " (:day parsed-args) " with file '" (:file parsed-args) "'\n"
+                  "Part one solution: " part-one 
+                  "\nPart two solution: " part-two 
+                  "\nElapsed time: " (format "%.2f" elapsed) " ms"))))
 

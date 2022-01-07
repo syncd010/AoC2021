@@ -17,11 +17,6 @@
           new-gen-sz (count (filter #(= % -1) gens-dec))]
       (recur (dec n) (into (replace {-1 6} gens-dec) (repeat new-gen-sz 8))))))
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
-  (let [input (convert raw-input)]
-  (count (evolve-gens part-one-days input))))
-
 (defn evolve-age-freqs
   "Evolve generations which are grouped in age groups"
   [n age-freqs]
@@ -31,9 +26,11 @@
       (recur (dec n) (assoc next-age-freqs 6 (+ (get age-freqs 0) (get age-freqs 7)))))))
 
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
+(defn solve [raw-input]
   (let [input (convert raw-input)
+        part-one (count (evolve-gens part-one-days input))
         age-freqs (vals (into (sorted-map)
                               (merge (zipmap (range 9) (repeat 0))
-                                     (frequencies input))))]
-    (sum (evolve-age-freqs part-two-days (vec age-freqs)))))
+                                     (frequencies input))))
+        part-two (sum (evolve-age-freqs part-two-days (vec age-freqs)))]
+    [part-one part-two]))

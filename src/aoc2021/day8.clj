@@ -10,10 +10,8 @@
               (str/split line #"\|")))
        raw-input))
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
-  (let [input (convert raw-input)
-        counts (map #(count %) (flatten (map second input)))
+(defn solve-part-one [input]
+  (let [counts (map #(count %) (flatten (map second input)))
         relevant (filter #(or (= % 7) (= % 4) (= % 2) (= % 3)) counts)]
     (count relevant)))
 
@@ -51,6 +49,8 @@
     (parse-int (str/join output-digits))))
 
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
-  (let [input (convert raw-input)]
-    (sum (map decode-output-digits input))))
+(defn solve [raw-input]
+  (let [input (convert raw-input)
+        part-one (solve-part-one input)
+        part-two (sum (map decode-output-digits input))]
+    [part-one part-two]))

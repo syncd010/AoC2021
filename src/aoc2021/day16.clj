@@ -33,8 +33,8 @@
         header-end (if (= 0 length-type) (+ 7 15) (+ 7 11))
         op-num (Integer/parseInt (subs packet 7 header-end) 2)
         stop-fn (if (= 0 length-type)
-                  (fn [sub-packets consumed] (= consumed op-num))
-                  (fn [sub-packets consumed] (= (count sub-packets) op-num)))]
+                  (fn [_ consumed] (= consumed op-num))
+                  (fn [sub-packets _] (= (count sub-packets) op-num)))]
     (loop [sub-packets [] consumed 0]
       (if (stop-fn sub-packets consumed)
         [{:version version :type type :length-type length-type :sub-packets sub-packets} (+ header-end consumed)]
@@ -50,14 +50,6 @@
 (defn sum-versions [packet]
   (+ (:version packet) (apply + (map sum-versions (:sub-packets packet)))))
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
-  (-> raw-input
-      convert
-      parse-packet
-      first
-      sum-versions))
-
 (defn eval-packet [packet]
   (let [type (:type packet)
         evaluated-sub-packets (map eval-packet (:sub-packets packet))]
@@ -72,9 +64,9 @@
       (= type 7) (if (= (first evaluated-sub-packets) (second evaluated-sub-packets)) 1 0))))
 
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
-  (-> raw-input
-      convert
-      parse-packet
-      first
-      eval-packet))
+(defn solve [raw-input]
+  (let [packet (-> raw-input
+                   convert
+                   parse-packet
+                   first)]
+    [(sum-versions packet) (eval-packet packet)]))

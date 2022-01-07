@@ -23,10 +23,8 @@
   [lst]
   (map #(if (== % 0) 1 0) lst))
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
-  (let [input (convert raw-input)
-        gamma (calc-gamma input)
+(defn solve-part-one [input]
+  (let [gamma (calc-gamma input)
         epsilon (negate gamma)
         gamma-dec (Integer/parseInt (join gamma) 2)
         epsilon-dec (Integer/parseInt (join epsilon) 2)]
@@ -41,11 +39,16 @@
       (== (+ pos 1) (count (first lst))) new-lst
       :else (recur (+ pos 1) new-lst calc-fn))))
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
-  (let [input (convert raw-input)
-        o2-rating (first (filter-on-pos 0 input calc-gamma))
+(defn solve-part-two [input]
+  (let [o2-rating (first (filter-on-pos 0 input calc-gamma))
         co2-rating (first (filter-on-pos 0 input #(negate (calc-gamma %))))
         o2-rating-dec (Integer/parseInt (join (seq o2-rating)) 2)
         co2-rating-dec (Integer/parseInt (join (seq co2-rating)) 2)]
     (* o2-rating-dec co2-rating-dec)))
+
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
+(defn solve [raw-input]
+  (let [input (convert raw-input)
+        part-one (solve-part-one input)
+        part-two (solve-part-two input)]
+    [part-one part-two]))

@@ -1,6 +1,13 @@
 (ns aoc2021.common
   (:require [clojure.string :as str]))
 
+(defmacro timed
+  "Evaluates expr and the time it took.  Returns the a pair of time and value of expr."
+  [expr]
+  `(let [start# (. System (nanoTime))
+         ret# ~expr]
+     [(/ (double (- (. System (nanoTime)) start#)) 1000000.0) ret#]))
+
 (defn zip
   "Returns a lazy sequence of lists with interleaved elements from the input collections"
   [& colls]
@@ -11,6 +18,10 @@
   [coll]
   (first (apply min-key second (map-indexed vector coll))))
 
+(defn max-index
+  "Maximum index of the collection"
+  [coll]
+  (first (apply max-key second (map-indexed vector coll))))
 
 (defn is-lower-case?
   "Whether the input string is all in lower case"
@@ -55,9 +66,7 @@
   "Mean of a sequence"
   [coll]
   (let [sz (count coll)]
-    (if (pos? sz)
-      (/ (sum coll) sz)
-      0)))
+    (if (pos? sz) (/ (reduce + coll) sz) 0)))
 
 (defn median
   "Median of a sequence"

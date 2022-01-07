@@ -51,15 +51,9 @@
   (str/join "\n" (map (fn [line] (str/replace (str/join line) #"0|1" {"0" "." "1" "#"})) img)))
 
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
+(defn solve [raw-input]
   (let [[img-subs img] (convert raw-input)
-        enhanced-img (enhance img img-subs 2)]
-    ;; (println (img-repr enhanced-img))))
-    (reduce + (map #(reduce + %) enhanced-img))))
-
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
-  (let [[img-subs img] (convert raw-input)
-        enhanced-img (enhance img img-subs 50)]
+        part-one (reduce + (map #(reduce + %) (enhance img img-subs 2)))
+        part-two (reduce + (map #(reduce + %) (enhance img img-subs 50)))]
     (shutdown-agents)
-    (reduce + (map #(reduce + %) enhanced-img))))
+    [part-one part-two]))

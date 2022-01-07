@@ -36,12 +36,6 @@
                  (assoc positions player-idx new-player-pos)
                  (inc round)))))))
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
-  (let [input (convert raw-input)
-        [scores positions round] (play-deterministic-dice input)]
-    (* (apply min scores) (* round 3))))
-
 (def dice-results 
   "Possible results for a Dirac dice"
   [1 2 3])
@@ -94,6 +88,9 @@
                (+ p2-wins (reduce #(+ %1 (second %2)) 0 p2-universe-wins)))))))
 
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
-  (let [input (convert raw-input)]
-  (play-dirac-dice {[[(first input) 0] [(second input) 0]] 1})))
+(defn solve [raw-input]
+  (let [input (convert raw-input)
+        [scores _ round] (play-deterministic-dice input)
+        part-one (* (apply min scores) (* round 3))
+        part-two (play-dirac-dice {[[(first input) 0] [(second input) 0]] 1})]
+    [part-one (apply max part-two)]))

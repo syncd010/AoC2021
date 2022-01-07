@@ -124,18 +124,13 @@
   (let [params (get transforms (:id scanner))]
     (map (fn [b] (mapv + (:location params) (dot (:rotation params) b))) (:beacons scanner))))
 
-(def scanners-transforms (atom {}))
-
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
+(defn solve [raw-input]
   (let [input (convert raw-input)
         transforms (all-overlapped-scanners input)
-        corrected-beacons (mapcat #(correct-beacon-location % transforms) input)]
-    (swap! scanners-transforms into transforms) ;; Reuse for part two
+        corrected-beacons (mapcat #(correct-beacon-location % transforms) input)
+        part-one (count (set corrected-beacons))
+        locations (map :location (vals transforms))
+        part-two (apply max (map #(m-dist (first %) (second %)) (combo/combinations locations 2)))]
     (shutdown-agents) ;; Because of pmap
-    (count (set corrected-beacons))))
-
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
-  (let [locations (map :location (vals @scanners-transforms))]
-    (apply max (map #(m-dist (first %) (second %)) (combo/combinations locations 2)) )))
+    [part-one part-two]))

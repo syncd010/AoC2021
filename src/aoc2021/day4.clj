@@ -50,16 +50,13 @@
       new-results
       (recur (second round-result) (rest remaining-nums) new-called-nums new-results))))
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
-  (let [input (convert raw-input)
-        bingo-rounds (play-bingo-rounds (second input) (first input) [] [])
-        winner-round (first (remove nil? bingo-rounds))]
-    (* (reduce + (flatten (second winner-round))) (last (first winner-round)))))
+(defn score-round [round]
+  (* (reduce + (flatten (second round))) (last (first round))))
 
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
+(defn solve [raw-input]
   (let [input (convert raw-input)
         bingo-rounds (play-bingo-rounds (second input) (first input) [] [])
-        winner-round (last (remove nil? bingo-rounds))]
-    (* (reduce + (flatten (second winner-round))) (last (first winner-round)))))
+        part-one-winner (first (remove nil? bingo-rounds))
+        part-two-winner (last (remove nil? bingo-rounds))]
+    [(score-round part-one-winner) (score-round part-two-winner)]))

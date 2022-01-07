@@ -48,12 +48,9 @@
     (filter #(hits? % [-1 -1] [xm xM] [ym yM]) (for [vx (range min-v0x max-v0x) vy (range min-v0y max-v0y)] [vx vy]))))
 
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
+(defn solve [raw-input]
   (let [input (convert raw-input)
-        max-vy (apply max (map second (all-hits (first input) (second input))))]
-  (int (Math/floor (s max-vy -1 (+ max-vy 0.5))))))
-
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
-  (let [input (convert raw-input)]
-  (count (all-hits (first input) (second input)))))
+        max-vy (apply max (map second (all-hits (first input) (second input))))
+        part-one (int (Math/floor (s max-vy -1 (+ max-vy 0.5))))
+        part-two (count (all-hits (first input) (second input)))]
+    [part-one part-two]))

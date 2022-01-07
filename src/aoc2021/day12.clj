@@ -34,11 +34,6 @@
           (not (coll-contains? path %)))
      (cave-map (last path)))))
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
-  (let [input (convert raw-input)]
-    (explore (successors-fn-part-one input) is-complete? "start")))
-
 (defn successors-fn-part-two [cave-map]
   (fn [path]
     (filter
@@ -48,6 +43,8 @@
      (cave-map (last path)))))
 
 #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
-  (let [input (convert raw-input)]
-    (explore (successors-fn-part-two input) is-complete? "start")))
+(defn solve [raw-input]
+  (let [input (convert raw-input)
+        part-one (explore (successors-fn-part-one input) is-complete? "start")
+        part-two (explore (successors-fn-part-two input) is-complete? "start")]
+    [part-one part-two]))

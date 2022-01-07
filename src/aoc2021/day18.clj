@@ -70,14 +70,17 @@
     node
     (+ (* 3 (magnitude (first node))) (* 2 (magnitude (second node))))))
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-one [raw-input]
-  (let [input (convert raw-input)
-        reduced (reduce #(reduce-node [%1 %2]) input)]
+(defn solve-part-one [input]
+  (let [reduced (reduce #(reduce-node [%1 %2]) input)]
     (magnitude reduced)))
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn solve-part-two [raw-input]
-  (let [input (convert raw-input)
-        all-pairs (remove nil? (for [fst input snd input] (when (not= fst snd) [fst snd])))]
+(defn solve-part-two [input]
+  (let [all-pairs (remove nil? (for [fst input snd input] (when (not= fst snd) [fst snd])))]
   (reduce max (map (comp magnitude reduce-node) all-pairs))))
+
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
+(defn solve [raw-input]
+  (let [input (convert raw-input)
+        part-one (solve-part-one input)
+        part-two (solve-part-two input)]
+    [part-one part-two]))
