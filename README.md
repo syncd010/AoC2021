@@ -121,6 +121,9 @@ The second part scared me, right from the moment i read the result numbers. It's
 There might be a (much) simpler solution, but this is the best i could find.
 
 ## [Day 22](https://adventofcode.com/2021/day/22)
+Yet another time-sink. I suppose that either i missed an obvious solution, or this is a common CS problem which i never encountered. I recognize it as some kind of algorithm useful in 3D, but i never heard of it so i had to reinvent the wheel (and probably i ended up with a squared one).
+Anyway, the straightforward implementation of storing the state of each position in a multi-dimensional array wouldn't work, given the size of the problem. For part 1 we already had to consider 1M positions, which was manageable, but it was obvious that in part 2 that number would explode. The cubes would need to be the main structure, and the solution would have to join each cube with the already processed ones, partitioning them into new cubes that didn't intersect with the one being processed, and adding it if it was on. Pretty simple to visualize, but a pain to implement.
+The intersection process could be a lot smarter, as it currently just produces all possible intersections, and there are obvious ways to reduce the number of cubes produced (join the cubes that have similar size at 2 of the dimensions and are at the same coordinates), but i let it rest. Maybe because of that i feel it runs kind of slowly - about 3 seconds. I tried using transients but it only got me a 5% improvement, so i decided to keep the simpler version.
 
 ## [Day 23](https://adventofcode.com/2021/day/23)
 
