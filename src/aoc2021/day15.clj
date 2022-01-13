@@ -1,10 +1,9 @@
 (ns aoc2021.day15
   (:require [clojure.string :as str])
-  (:require [aoc2021.common :refer [parse-int]])
   (:require [aoc2021.search :as search]))
 
 (defn convert [raw-input]
-  (mapv (fn [line] (mapv #(parse-int %) (str/split line #""))) raw-input))
+  (mapv (fn [line] (mapv #(Integer/parseInt %) (str/split line #""))) raw-input))
 
 (comment
   "Change the file to load it in the REPL"

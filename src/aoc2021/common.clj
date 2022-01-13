@@ -31,6 +31,11 @@
 (defn has-duplicates? [xs]
   (not= (count (distinct xs)) (count xs)))
 
+(defn m-get
+  "Get an element from a matrix"
+  [matrix row col]
+  (get (get matrix row) col))
+
 (defn transpose
   "Transpose a matrix"
   [m]

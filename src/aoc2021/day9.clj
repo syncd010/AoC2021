@@ -1,14 +1,9 @@
 (ns aoc2021.day9
   (:require [clojure.string :as str])
-  (:require [aoc2021.common :refer [parse-int sum]]))
+  (:require [aoc2021.common :refer [m-get]]))
 
 (defn convert [raw-input]
-  (mapv (fn [line] (mapv #(parse-int %) (str/split line #""))) raw-input))
-
-(defn m-get
-  "Get an element from a matrix"
-  [matrix row col]
-  (get (get matrix row) col)) 
+  (mapv (fn [line] (mapv #(Integer/parseInt %) (str/split line #""))) raw-input))
 
 (defn neighbors-idx
   "Indexes of the neighbors"
@@ -43,7 +38,7 @@
         heigth (count input)
         low-points (remove nil? (for [row (range heigth) col (range width)]
                                   (when (is-low-point? input row col) [row col])))
-        part-one (sum (map (fn [[r c]] (inc (m-get input r c))) low-points))
+        part-one (reduce + (map (fn [[r c]] (inc (m-get input r c))) low-points))
         basins (map #(flood-basin input % #{}) low-points)
         part-two (apply * (take 3 (sort > (map count basins))))]
     [part-one part-two]))
