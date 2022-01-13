@@ -79,7 +79,6 @@
 ;;                       [(key val) curr-idx (inc curr-idx)]
 ;;                       [min-val min-idx (inc curr-idx)])) [(key (first nodes)) 0 0]
 ;;                   nodes)))
-
 ;; (defn general-cost-search
 ;;   "General cost search, fits uniform cost, greedy and A* search"
 ;;   [start successors is-goal cost-key]
@@ -99,8 +98,8 @@
 (defn general-cost-search
   "General cost search, fits uniform cost, greedy and A* search"
   [start successors is-goal cost-key]
-  ;; Sorting the successors every time we enqueu them. This seems very inneficient, but it's the 
-  ;; best alternative i found. Manually calculating sub vectors is slower than sorting...
+  ;; Sorting the successors every time we enqueue them. This is very inneficient, but it's the 
+  ;; best alternative i found. Not sorting and manually finding the minimum is slower than sorting
   (let [start-nodes (list start)
         partition (fn [frontier] [(first frontier) (rest frontier)])
         filtered-successors (fn [node explored]
