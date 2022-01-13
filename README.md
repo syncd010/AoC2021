@@ -126,6 +126,12 @@ Anyway, the straightforward implementation of storing the state of each position
 The intersection process could be a lot smarter, as it currently just produces all possible intersections, and there are obvious ways to reduce the number of cubes produced (join the cubes that have similar size at 2 of the dimensions and are at the same coordinates), but i let it rest. Maybe because of that i feel it runs kind of slowly - about 3 seconds. I tried using transients but it only got me a 5% improvement, so i decided to keep the simpler version.
 
 ## [Day 23](https://adventofcode.com/2021/day/23)
+So i got to use the generic search algorithms i made in day 15 on this day's uniform cost search. There were challenges in applying it, as neither representing the state of the problem nor generating the possible moves is straightforward. These two challenges are linked as usual, as different representations facilitate different aspects on the algorithm.
+In terms of representations there are 2 obvious choices: save only the location coordinates or save the whole map of the maze. I went with the latter, though i also had one version using the former (more on that later). With that, generating the successors based on possible moves was the main challenge, and it took some time to get right.
+In the end, i'm not completely happy with my solution, mainly because it takes too much time (about 100s). I already knew that the generic search algorithm wasn't optimized, and the code i arrived at feels a bit inefficient. To improve it i tried:
+- Using other representation for the state, namely saving only the locations of the elements. This led to cleaner code, but somehow it was slower (about 2x)... This is an issue with Clojure (or lack of experience), you seldom know if a given change is going to help performance wise, or if you get caught up in some trap that negates the whole effort...
+- Use A-Star search with a conservative estimated cost till end. I wasn't very hopeful that A-Star would help on this problem, and indeed it didn't - the explored nodes slightly decreased, but the added complexity more than made up for that improvement, and the final runtime was worse than a simple cost search.
+In the end, as as happened a few times already, i let the initial solution be, though not happy with its performance.
 
 ## [Day 24](https://adventofcode.com/2021/day/24)
 
