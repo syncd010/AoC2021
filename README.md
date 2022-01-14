@@ -134,5 +134,9 @@ In the end, i'm not completely happy with my solution, mainly because it takes t
 In the end, as as happened a few times already, i let the initial solution be, though not happy with its performance.
 
 ## [Day 24](https://adventofcode.com/2021/day/24)
+Solved this one by hand. Translated the code to something more friendly and then interpreted it. The code is a sequence of 14 steps that manipulates the value of z, either multiplying it by 26 and adding a remainder, or divides it by 26 (and removing the remainder of 26). Looking at the first step, z can end up between [5 15], and looking at the last step, for z to be 0 at the end it must be between [15 23], so z must start with 15, proceed through a series of multiplications and divisions by 26 and end at 15. At each step, whenever we can divide z (by making x = 0) we need to do so, which introduces constraints on the input values.
+Following these constraints we arrive at the solution. It's easier by starting at the beginning and trying to make each input as big as possible (or as small as possible for part 2), while satisfying the constraints.
+This couldn't be a naive brute-force approach because of the scale, but it could be turned into a constraint satisfaction problem, it's just that, having spent time analyzing the code i was halfway through the answer, and decided it was quicker to make the computations manually. Maybe this is not in the spirit of the problem, but identifying all the constraints and coding a solution would take more time.
+There's no code, just the translated machine code, and the possible values for the relevant variables at each step, that i used to derive the solution.
 
 ## [Day 25](https://adventofcode.com/2021/day/25)
