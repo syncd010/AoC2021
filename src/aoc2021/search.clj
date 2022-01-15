@@ -1,4 +1,5 @@
-(ns aoc2021.search)
+(ns aoc2021.search
+    (:require [clojure.data.priority-map :refer [priority-map]]))
 
 (defn make-search-node
   "Makes a data structure suitable to be used with the search functions. Has the following properties:
@@ -73,40 +74,18 @@
         enqueue (fn [frontier successors] (concat successors frontier))]
     (general-search start-nodes (default-filter-successors-fn successors) is-goal partition enqueue)))
 
-;; (defn min-idx [nodes key]
-;;   (second (reduce (fn [[min-val min-idx curr-idx] val]
-;;                     (if (< (key val) min-val)
-;;                       [(key val) curr-idx (inc curr-idx)]
-;;                       [min-val min-idx (inc curr-idx)])) [(key (first nodes)) 0 0]
-;;                   nodes)))
-;; (defn general-cost-search
-;;   "General cost search, fits uniform cost, greedy and A* search"
-;;   [start successors is-goal cost-key]
-;;   (let [start-nodes (vector start)
-;;         partition
-;;         (fn [frontier]
-;;           (let [min-idx (min-idx frontier cost-key)]
-;;             [(nth frontier min-idx) (into (subvec frontier 0 min-idx) (subvec frontier (inc min-idx)))]))
-;;         filtered-successors
-;;         (fn [node explored]
-;;           (filter
-;;            #(let [seen (get explored (:id %))] (or (nil? seen) (< (cost-key %) (cost-key seen))))
-;;            (successors node)))
-;;         enqueue (fn [frontier successors] (into frontier successors))]
-;;     (general-search start-nodes filtered-successors is-goal partition enqueue)))
-
 (defn general-cost-search
   "General cost search, fits uniform cost, greedy and A* search"
   [start successors is-goal cost-key]
-  ;; Sorting the successors every time we enqueue them. This is very inneficient, but it's the 
-  ;; best alternative i found. Not sorting and manually finding the minimum is slower than sorting
-  (let [start-nodes (list start)
-        partition (fn [frontier] [(first frontier) (rest frontier)])
+  ;; Use a priority map as the queue
+  (let [start-nodes (into (priority-map) {start (cost-key start)})
+        partition (fn [frontier] [(first (peek frontier)) (pop frontier)])
         filtered-successors (fn [node explored]
                               (filter
                                #(let [seen (get explored (:id %))] (or (nil? seen) (< (cost-key %) (cost-key seen))))
                                (successors node)))
-        enqueue (fn [frontier successors] (sort-by cost-key (into frontier successors)))]
+        enqueue (fn [frontier successors] 
+                  (into frontier (map (fn [s] [s (cost-key s)]) successors)))]
     (general-search start-nodes filtered-successors is-goal partition enqueue)))
 
 (defn uniform-cost-search
