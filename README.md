@@ -140,3 +140,4 @@ This couldn't be a naive brute-force approach because of the scale, but it could
 There's no code, just the translated machine code, and the possible values for the relevant variables at each step, that i used to derive the solution.
 
 ## [Day 25](https://adventofcode.com/2021/day/25)
+And that's a wrap, with a simpler one. The code smells of imperative style, but i guess that's just using the right tool for the job. Uses transients and represents the 2D input as a 1D vector for acceptable performance.
