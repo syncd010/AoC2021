@@ -13,23 +13,20 @@
   (str/join "\n" (map (fn [line] (str/join line)) (partition width matrix))))
 
 (defn evolve-direction [matrix width heigth dir]
-  (loop [new-matrix (transient (vec (repeat (* width heigth) \.))) idx 0 moves 0]
-    (if (= idx (* width heigth))
-      [(persistent! new-matrix) moves]
-      (let [[step-matrix step-moves]
-            (cond
-              (= \. (matrix idx))
-              [new-matrix 0] ;; Free space, do nothing
-              (= dir (matrix idx))
-              (let [next-idx (if (= dir \>)
-                               (+ (* (quot idx width) width) (mod (inc idx) width))
-                               (mod (+ idx width) (* width heigth)))]
-                (if (= \. (matrix next-idx)) ;; Next space is free
-                  [(assoc! (assoc! new-matrix idx \.) next-idx dir) 1]
-                  [(assoc! new-matrix idx dir) 0]))
-              :else
-              [(assoc! new-matrix idx (matrix idx)) 0])] ;; Other dir
-        (recur step-matrix (inc idx) (+ moves step-moves))))))
+  (let [[new-matrix _ moves]
+        (reduce
+         (fn [[new-matrix idx moves] c]
+           (if (not= c dir)
+             [new-matrix (inc idx) moves]
+             (let [next-idx (if (= c \>)
+                              (+ (* (quot idx width) width) (mod (inc idx) width))
+                              (mod (+ idx width) (* width heigth)))]
+               (if (= \. (matrix next-idx)) ;; Next space is free
+                 [(assoc! (assoc! new-matrix idx \.) next-idx c) (inc idx) (inc moves)]
+                 [new-matrix (inc idx) moves]))))
+         [(transient (vec matrix)) 0 0]
+         matrix)]
+    [(persistent! new-matrix) moves]))
 
 (defn evolve [input width heigth]
   (loop [matrix input steps 0 moves 0]
